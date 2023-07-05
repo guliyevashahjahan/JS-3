@@ -1,8 +1,19 @@
-$(function () {
-  let basketArr = [];
-  onload = GetProducts();
+import { setStorage, getStorage } from "./storage.js";
 
+
+$(function () {
+  let totalAmount = document.querySelector('.totalAmount');
+  let basketContainer = document.querySelector(".cart-items");
   let quantity = document.querySelector(".quantity");
+  let basketArr = getStorage('products') || [];
+  ListBasket();
+  onload = GetProducts();
+  document.addEventListener('DOMContentLoaded' , function (){
+ListBasket();
+  })
+ 
+
+ 
   $.get(
     "https://fakestoreapi.com/products/categories",
     function (data, status) {
@@ -71,7 +82,7 @@ $(function () {
     for (const button of buttons) {
       button.addEventListener("click", AddToCart);
     }
-
+   
     function AddToCart(e) {
       $.get("https://fakestoreapi.com/products", function (data, status) {
         let productsArr = data;
@@ -86,22 +97,23 @@ $(function () {
           basketArr.slice(index, 1, updatedElement);
         } else {
           basketArr.push({ ...findedElement, count: 1 });
+          
         }
-        let totalCount = basketArr.reduce(
-          (accumulator, product) => accumulator + product.count,
-          0
-        );
-        if (totalCount != 0) {
-          $(".shopping-cart").removeClass("d-none");
-        }
-        quantity.textContent = totalCount;
+        setStorage('products', basketArr)
         ListBasket();
       });
     }
   }
-  let basketContainer = document.querySelector(".cart-items");
+
 
   function ListBasket() {
+
+    let totalPrices = basketArr.reduce(
+      (accumulator, product) => accumulator + (product.price * product.count),
+      0
+    );
+
+    totalAmount.textContent = '$ '+ totalPrices.toFixed(2);
     let decrement = document.getElementsByClassName("decrement")
     let increment = document.getElementsByClassName("increment")
     basketContainer.innerHTML = "";
@@ -114,9 +126,17 @@ $(function () {
         star += `<div style="color:#ffc107;" class="bi-star-fill"></div>`;
       }
       basketContainer.innerHTML += ` <li style="border: 1px solid rgba(0, 0, 0, 0.3); border-radius: 3px; padding: 10px; margin-bottom:10px;  ">
-      <b>   ${product.title}</b> </br>  </br><span style="font-size:16px;"> $${product.price} </span> </br><span style ="font-size: 20px; font-weight:600">  x${product.count} </span> <div style="display:inline;" data-id='${product.id}'>  <button  class="decrement cart-button"">-</button>   <button class="increment cart-button">+</button> </div> </br> <div class="d-flex"> ${star} </div> </br> <span style="font-size:22px;"> $${totalPrice.toFixed(2)} </span></li>
+      <b>   ${product.title}</b> </br> <span style="font-size:16px;"> $${product.price} </span> </br><span style ="font-size: 20px; font-weight:600">  x${product.count} </span> <div style="display:inline;" data-id='${product.id}'>  <button  class="decrement cart-button"">-</button>   <button class="increment cart-button">+</button> </div> </br> <div class="d-flex"> ${star} </div> <span style="font-size:22px;"> $${totalPrice.toFixed(2)} </span></li>
       `;
     });
+    let totalCount = basketArr.reduce(
+      (accumulator, product) => accumulator + product.count,
+      0
+    );
+    if (totalCount != 0) {
+      $(".shopping-cart").removeClass("d-none");
+    }
+    quantity.textContent = totalCount;
     for (const element of decrement) {
         element.addEventListener('click',Decrement);
     }
@@ -144,6 +164,7 @@ for (const element of increment) {
     let updatedElement = { ...isInBasket, count: --isInBasket.count };
     basketArr.slice(index, 1, updatedElement);
  }
+ setStorage('products',basketArr);
  ListBasket();
   }
 
@@ -156,6 +177,7 @@ for (const element of increment) {
     basketArr.slice(index, 1, updatedElement);
    
   }
+  setStorage('products',basketArr);
   ListBasket();
   }
  

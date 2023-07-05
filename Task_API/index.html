@@ -36,6 +36,7 @@
       li {
         list-style: none;
         text-decoration: none;
+        margin-right: 30px;
       }
       .cart-button{
         border: 1px solid rgba(0, 0, 0, 0.3);
@@ -139,8 +140,8 @@
         <li style="font-size: 24px; font-weight: 600;">Your cart is empty</li>
        
       </ul>
-     <div class="totalContainer">
-        Total: <span class="totalAmount"></span>
+     <div class="totalContainer" style="position: absolute; top: 65px;font-size: 22px;margin-left:20px">
+        Total: <span class="totalAmount"> 0 azn</span>
      </div>
     </section>
     <!-- Footer-->
@@ -159,6 +160,7 @@
       crossorigin="anonymous"
     ></script>
     <!-- Core theme JS-->
-    <script src="./scripts.js"></script>
+    <script src="./storage.js" type="module"></script>
+    <script src="./scripts.js" type="module"></script>
   </body>
 </html>
