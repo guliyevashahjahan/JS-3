@@ -1,0 +1,43 @@
+
+
+
+.product-filter {
+    width: 350px;
+    height: 300px;
+    position: absolute;
+    left: -350px;
+    top: 79.6%;
+    z-index: 4;
+    background-color: #eee;
+    border: 1px solid rgba(0, 0,0, 0.2);
+    border-radius: 0px 5px 5px 0px;
+    padding: 20px;
+    transition: 1s;
+  }
+
+  .product-filter input[type="search"] {
+    font-size: 20px;
+    outline: none;
+  }
+  .filter-icon button {
+    border: none;
+    outline: none;
+    background-color: white;
+    
+  }
+  .product-filter-click{
+    left: 0px !important;
+  }
+
+  .filter-icon {
+    background-color: white;
+    
+    position: absolute;
+    
+    top: 70.2%;
+    font-size: 24px;
+    border: 1px solid rgba(0, 0,0, 0.2);
+    border-radius: 0px 4px 4px 0px;
+    display: inline;
+    padding: 5px;
+  }
